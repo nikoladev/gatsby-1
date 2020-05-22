@@ -1,4 +1,5 @@
 import crypto from "crypto"
+import v8 from "v8"
 import {
   parse,
   validate,
@@ -27,6 +28,7 @@ interface IGraphQLRunnerStats {
   totalRunQuery: number
   totalPluralRunQuery: number
   totalIndexHits: number
+  totalSiftHits: number
   totalNonSingleFilters: number
   comparatorsUsed: Map<string, number>
   uniqueFilterPaths: Set<string>
@@ -40,6 +42,7 @@ interface IGraphQLRunnerStatResults {
   totalRunQuery: number
   totalPluralRunQuery: number
   totalIndexHits: number
+  totalSiftHits: number
   totalNonSingleFilters: number
   comparatorsUsed: Array<{ comparator: string; amount: number }>
   uniqueFilterPaths: number
@@ -88,6 +91,7 @@ export default class GraphQLRunner {
         totalRunQuery: 0,
         totalPluralRunQuery: 0,
         totalIndexHits: 0,
+        totalSiftHits: 0,
         totalNonSingleFilters: 0,
         comparatorsUsed: new Map(),
         uniqueFilterPaths: new Set(),
@@ -140,6 +144,7 @@ export default class GraphQLRunner {
         totalRunQuery: this.stats.totalRunQuery,
         totalPluralRunQuery: this.stats.totalPluralRunQuery,
         totalIndexHits: this.stats.totalIndexHits,
+        totalSiftHits: this.stats.totalSiftHits,
         totalNonSingleFilters: this.stats.totalNonSingleFilters,
         comparatorsUsed: comparatorsUsedObj,
         uniqueFilterPaths: this.stats.uniqueFilterPaths.size,
@@ -169,15 +174,12 @@ export default class GraphQLRunner {
         crypto
           .createHash(`sha1`)
           .update(statsQuery)
-          .update(JSON.stringify(context))
+          .update(v8.serialize(context))
           .digest(`hex`)
       )
 
       this.stats.uniqueQueries.add(
-        crypto
-          .createHash(`sha1`)
-          .update(statsQuery)
-          .digest(`hex`)
+        crypto.createHash(`sha1`).update(statsQuery).digest(`hex`)
       )
     }
 
