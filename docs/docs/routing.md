@@ -8,7 +8,7 @@ Alternatively, your application may include functionality that cannot be handled
 
 ## Creating routes
 
-Gatsby makes it easy to programmatically control your pages. Pages can be created in three ways:
+Gatsby makes it possible to programmatically control your pages. Pages can be created in three ways:
 
 - In your site's gatsby-node.js by implementing the API
   [`createPages`](/docs/node-apis/#createPages)
@@ -58,6 +58,8 @@ Alternatively, if you want to create pages that will display different subcompon
 In order to link between pages, you can use [`gatsby-link`](/docs/gatsby-link/). Using `gatsby-link` gives you built in [performance benefits](#performance-and-prefetching).
 
 Alternatively, you can navigate between pages using standard `<a>` tags, but you won't get the benefit of prefetching in this case.
+
+Gatsby will handle scroll restoration for you in most cases. To track and restore scroll position in additional containers, you can [use the `useScrollRestoration` hook](/docs/scroll-restoration/).
 
 ## Creating authentication-gated links
 

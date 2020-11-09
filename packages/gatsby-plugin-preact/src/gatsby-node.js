@@ -5,6 +5,17 @@ exports.onPreInit = () => {
   process.env.GATSBY_HOT_LOADER = `fast-refresh`
 }
 
+exports.onCreateBabelConfig = ({ actions, stage }) => {
+  if (stage === `develop`) {
+    // enable react-refresh babel plugin to enable hooks
+    // @see https://github.com/JoviDeCroock/prefresh/tree/master/packages/webpack#using-hooks
+    actions.setBabelPlugin({
+      name: `@prefresh/babel-plugin`,
+      stage,
+    })
+  }
+}
+
 exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
   const webpackPlugins = []
   if (stage === `develop`) {
@@ -16,12 +27,25 @@ exports.onCreateWebpackConfig = ({ stage, actions, getConfig }) => {
       plugin => plugin.constructor.name !== `ReactRefreshPlugin`
     )
     actions.replaceWebpackConfig(webpackConfig)
+  }
 
-    // enable react-refresh babel plugin to enable hooks
-    // @see https://github.com/JoviDeCroock/prefresh/tree/master/packages/webpack#using-hooks
-    actions.setBabelPlugin({
-      name: `react-refresh/babel`,
-    })
+  // add preact to the framework bundle
+  if (stage === `build-javascript`) {
+    const webpackConfig = getConfig()
+    if (
+      webpackConfig?.optimization?.splitChunks?.cacheGroups?.framework?.test
+    ) {
+      const frameworkRegex =
+        webpackConfig.optimization.splitChunks.cacheGroups.framework.test
+
+      // replace react libs with preact
+      webpackConfig.optimization.splitChunks.cacheGroups.framework.test = module =>
+        /(?<!node_modules.*)[\\/]node_modules[\\/](preact)[\\/]/.test(
+          module.resource
+        ) || frameworkRegex.test(module.resource)
+
+      actions.replaceWebpackConfig(webpackConfig)
+    }
   }
 
   actions.setWebpackConfig({

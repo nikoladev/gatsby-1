@@ -2,7 +2,7 @@
 title: Winning Over Developers
 ---
 
-Developers are often the primary evangelists of Gatsby because they are the primary users of the framework. If you're a developer, you may find that simply talking to other developers about why _you_ like Gatsby is enough to get them interested. Here are some talking points to help support your conversations with developers.
+Developers are often the primary evangelists of Gatsby because they are the primary users of the framework. If you're a developer, you may find that talking to other developers about why _you_ like Gatsby is enough to get them interested. Here are some talking points to help support your conversations with developers.
 
 Some things that developers care about include:
 
@@ -55,7 +55,7 @@ You may find that many of your developer friends and colleagues have some questi
 
 ### Do I have to learn GraphQL to use Gatsby?
 
-> GraphQL is used to pull the content from all your different sources into Gatsby in a consistent, unified way. You don't have to use GraphQL to do this, but learning GraphQL will equip you to create new integrations more easily (and it may not be as challenging as you think). Amberly Romo digs into some of the pros and cons in her post on [Using Gatsby without GraphQL](/blog/2018-10-25-using-gatsby-without-graphql/).
+> GraphQL is used to pull the content from all your different sources into Gatsby in a consistent, unified way. You don't have to use GraphQL to do this, but learning GraphQL will equip you to create new integrations more easily (and it may not be as challenging as you think). Amberley Romo digs into some of the pros and cons in her post on [Using Gatsby without GraphQL](/blog/2018-10-25-using-gatsby-without-graphql/).
 
 ### Our content team needs to be able to make site updates, but they're not super technical. Are they going to be able to work with a Gatsby site?
 

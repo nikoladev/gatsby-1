@@ -4,7 +4,7 @@ title: Deploying to Azure
 
 This guide walks through how to deploy and host your next Gatsby site on Azure.
 
-Azure is a great option for deploying Gatsby sites. Azure is a large cloud platform with hundreds of services working together to give you serverless, databases, AI, and static web site hosting. The Azure Static Web Apps service is meant to be used with static web sites. It provides features like hosting, [CDN](/docs/glossary/content-delivery-network/), authentication/authorization, [continuous deployment](/docs/glossary/continuous-deployment/) with Git-triggered builds, HTTPS, the ability to add a serverless API, and much more.
+Azure is a great option for deploying Gatsby sites. Azure is a large cloud platform with hundreds of services working together to give you serverless, databases, AI, and static website hosting. The Azure Static Web Apps service is meant to be used with static websites. It provides features like hosting, [CDN](/docs/glossary/content-delivery-network/), authentication/authorization, [continuous deployment](/docs/glossary/continuous-deployment/) with Git-triggered builds, HTTPS, the ability to add a serverless API, and much more.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ Azure Static Web Apps service currently supports GitHub. In order to use the Azu
    `git init`.
 2. Next, create a file called `.gitignore` in the root of your project and give it the following content:
 
-   ```bash
+   ```text
    node_modules
    build
    ```
@@ -29,7 +29,7 @@ Azure Static Web Apps service currently supports GitHub. In order to use the Azu
 
 3. Finally, add the change and commit it.
 
-   ```bash
+   ```shell
    git add .
    git commit -m "adding Gatsby project"
    ```
@@ -44,7 +44,7 @@ Azure Static Web Apps service currently supports GitHub. In order to use the Azu
 
 4. Finally, add your GitHub repository as a remote and push. Type the following commands to accomplish that (replacing `<user>` with your GitHub user name):
 
-   ```bash
+   ```shell
    git remote add origin https://github.com/<user>/gatsby-app.git
    git push -u origin master
    ```
@@ -94,7 +94,7 @@ Next, add configuration details specific to your Gatsby project.
 
 The `App location` is the location of your front end app code. If you have a frontend app and an API in different directories but in the same repository, you will need to point out under which sub directory your front end app lives. You can leave this blank if you have a Gatsby project at the root.
 
-The default value for `Api location` is `/api`. As we don't have an API in an `/api` directory we can leave this blank and the Static Web App Service will ignore it during build. If you wish you can add an API at a later stage. Refer to the links at the bottom of this doc that describes how to do just that.
+The default value for `Api location` is `/api`. As we don't have an API in an `/api` directory we can leave this blank and the Static Web App Service will ignore it during build. If you wish you can add an API at a later stage. Refer to the links at the bottom of this doc that describes how to do that.
 
 The really important field to specify is the `App artifact location`, this should point to the folder where your Gatsby project is built, this would be `public` directory.
 
@@ -133,10 +133,10 @@ Congratulations! You've deployed your first app to Azure Static Web Apps!
 There's much more to learn about Azure Static Web Apps such as working with routes, setting up custom domains, adding a Serverless API, and much more. Below are some useful links:
 
 - [Docs: Azure Static Web Apps, overview page](https://docs.microsoft.com/en-gb/azure/static-web-apps?WT.mc_id=staticwebapps-github-chnoring)
-- [Docs: Azure Static Web Apps, add Serverless API](https://docs.microsoft.com/en-us/azure/static-apps/apis?WT.mc_id=staticwebapps-github-chnoring)
-- [Docs: Azure Static Web Apps, setup Custom domain](https://docs.microsoft.com/en-us/azure/static-apps/custom-domain?WT.mc_id=staticwebapps-github-chnoring)
+- [Docs: Azure Static Web Apps, add Serverless API](https://docs.microsoft.com/en-us/azure/static-web-apps/apis?WT.mc_id=staticwebapps-github-chnoring)
+- [Docs: Azure Static Web Apps, setup Custom domain](https://docs.microsoft.com/en-us/azure/static-web-apps/custom-domain?WT.mc_id=staticwebapps-github-chnoring)
 - [LEARN module: Gatsby and Azure Static Web Apps](https://docs.microsoft.com/learn/modules/create-deploy-static-webapp-gatsby-app-service?WT.mc_id=staticwebapps-github-chnoring)
 - [LEARN module: SPA applications + Serverless API and Azure Static Web Apps](https://docs.microsoft.com/learn/modules/publish-app-service-static-web-app-api?WT.mc_id=staticwebapps-github-chnoring)
 - [Docs: Azure Static Web Apps, Routing](https://docs.microsoft.com/en-us/azure/static-web-apps/routes?WT.mc_id=staticwebapps-github-chnoring)
 - [Docs: Azure Static Web Apps, Authentication & Authorization](https://docs.microsoft.com/en-us/azure/static-web-apps/authentication-authorization?WT.mc_id=staticwebapps-github-chnoring)
-- [Quickstart: Azure Static Web Apps + Gatsby](https://docs.microsoft.com/en-us/azure/static-apps/publish-gatsby?WT.mc_id=staticwebapps-github-chnoring)
+- [Quickstart: Azure Static Web Apps + Gatsby](https://docs.microsoft.com/en-gb/azure/static-web-apps/publish-gatsby?WT.mc_id=staticwebapps-github-chnoring)

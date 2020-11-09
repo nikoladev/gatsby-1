@@ -1,5 +1,4 @@
 import crypto from "crypto"
-import v8 from "v8"
 import { Span } from "opentracing"
 import {
   parse,
@@ -12,7 +11,6 @@ import {
   ExecutionResult,
 } from "graphql"
 import { debounce } from "lodash"
-import * as nodeStore from "../db/nodes"
 import { createPageDependency } from "../redux/actions/add-page-dependency"
 
 import withResolverContext from "../schema/context"
@@ -23,6 +21,11 @@ import { IGraphQLRunnerStatResults, IGraphQLRunnerStats } from "./types"
 import GraphQLSpanTracer from "./graphql-span-tracer"
 
 type Query = string | Source
+
+export interface IGraphQLRunnerOptions {
+  collectStats?: boolean
+  graphqlTracing?: boolean
+}
 
 export class GraphQLRunner {
   parseCache: Map<Query, DocumentNode>
@@ -40,18 +43,11 @@ export class GraphQLRunner {
 
   constructor(
     protected store: Store<IGatsbyState>,
-    {
-      collectStats,
-      graphqlTracing,
-    }: {
-      collectStats?: boolean
-      graphqlTracing?: boolean
-    } = {}
+    { collectStats, graphqlTracing }: IGraphQLRunnerOptions = {}
   ) {
     const { schema, schemaCustomization } = this.store.getState()
 
     this.nodeModel = new LocalNodeModel({
-      nodeStore,
       schema,
       schemaComposer: schemaCustomization.composer,
       createPageDependency,
@@ -97,7 +93,7 @@ export class GraphQLRunner {
   validate(
     schema: GraphQLSchema,
     document: DocumentNode
-  ): readonly GraphQLError[] {
+  ): ReadonlyArray<GraphQLError> {
     if (!this.validDocuments.has(document)) {
       const errors = validate(schema, document)
       if (!errors.length) {
@@ -135,7 +131,7 @@ export class GraphQLRunner {
     }
   }
 
-  query(
+  async query(
     query: Query,
     context: Record<string, unknown>,
     {
@@ -156,13 +152,6 @@ export class GraphQLRunner {
       if (typeof statsQuery !== `string`) {
         statsQuery = statsQuery.body
       }
-      this.stats.uniqueOperations.add(
-        crypto
-          .createHash(`sha1`)
-          .update(statsQuery)
-          .update(v8.serialize(context))
-          .digest(`hex`)
-      )
 
       this.stats.uniqueQueries.add(
         crypto.createHash(`sha1`).update(statsQuery).digest(`hex`)
@@ -171,6 +160,15 @@ export class GraphQLRunner {
 
     const document = this.parse(query)
     const errors = this.validate(schema, document)
+
+    // Queries are usually executed in batch. But after the batch is finished
+    // cache just wastes memory without much benefits.
+    // TODO: consider a better strategy for cache purging/invalidation
+    this.scheduleClearCache()
+
+    if (errors.length > 0) {
+      return { errors }
+    }
 
     let tracer
     if (this.graphqlTracing && parentSpan) {
@@ -185,31 +183,22 @@ export class GraphQLRunner {
     }
 
     try {
-      const result =
-        errors.length > 0
-          ? { errors }
-          : execute({
-              schema,
-              document,
-              rootValue: context,
-              contextValue: withResolverContext({
-                schema,
-                schemaComposer: schemaCustomization.composer,
-                context,
-                customContext: schemaCustomization.context,
-                nodeModel: this.nodeModel,
-                stats: this.stats,
-                tracer,
-              }),
-              variableValues: context,
-            })
-
-      // Queries are usually executed in batch. But after the batch is finished
-      // cache just wastes memory without much benefits.
-      // TODO: consider a better strategy for cache purging/invalidation
-      this.scheduleClearCache()
-
-      return Promise.resolve(result)
+      // `execute` will return a promise
+      return execute({
+        schema,
+        document,
+        rootValue: context,
+        contextValue: withResolverContext({
+          schema,
+          schemaComposer: schemaCustomization.composer,
+          context,
+          customContext: schemaCustomization.context,
+          nodeModel: this.nodeModel,
+          stats: this.stats,
+          tracer,
+        }),
+        variableValues: context,
+      })
     } finally {
       if (tracer) {
         tracer.end()

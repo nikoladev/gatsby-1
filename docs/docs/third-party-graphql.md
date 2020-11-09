@@ -12,7 +12,7 @@ First install the plugin.
 npm install gatsby-source-graphql
 ```
 
-Provided there is a GraphQL API under a `url`, adding it to an API just requires adding this to the config.
+Provided there is a GraphQL API under a `url`, adding it to an API requires adding this to the config.
 
 ```js:title=gatsby-config.js
 module.exports = {
@@ -101,3 +101,4 @@ exports.createPages = async ({ actions, graphql }) => {
 - [Example with Hasura](https://github.com/hasura/graphql-engine/tree/master/community/sample-apps/gatsby-postgres-graphql)
 - [Example with AWS AppSync](https://github.com/aws-samples/aws-appsync-gatsby-sample)
 - [Example with Dgraph](https://github.com/dgraph-io/gatsby-dgraph-graphql)
+- [Example with Drupal](https://github.com/smthomas/gatsby-drupal-graphql)

@@ -2,7 +2,7 @@
 title: How Gatsby Works with GitHub Pages
 ---
 
-GitHub Pages is a service offered by GitHub that allows hosting for websites configured straight from the repository. A Gatsby site can be hosted on GitHub Pages with just a few configurations to the codebase and the repository's settings.
+GitHub Pages is a service offered by GitHub that allows hosting for websites configured straight from the repository. A Gatsby site can be hosted on GitHub Pages with a few configurations to the codebase and the repository's settings.
 
 You can publish your site on GitHub Pages several different ways:
 
@@ -61,6 +61,14 @@ When you run `npm run deploy` all contents of the `public` folder will be moved 
 ### Deploying to a GitHub Pages subdomain at github.io
 
 For a repository named like `username.github.io`, you don't need to specify `pathPrefix` and your website needs to be pushed to the `master` branch.
+
+> ⚠️ Keep in mind that GitHub Pages forces deployment of user/organization pages to the `master` branch. So if you use `master` for development you need to do one of these:
+>
+> - Change the default branch from `master` to something else, and use `master` as a site deployment directory only:
+>   1. To create a new branch called `source` run this command:
+>      `git checkout -b source master`
+>   2. Change the default branch in your repository settings ("Branches" menu item) from `master` to `source`
+> - Have a separate repository for your source code (so `username.github.io` is used only for deployment and not really for tracking your source code)
 
 ```json:title=package.json
 {

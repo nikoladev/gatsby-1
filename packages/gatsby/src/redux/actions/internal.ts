@@ -16,6 +16,10 @@ import {
   IPageQueryRunAction,
   IRemoveStaleJobAction,
   ISetSiteConfig,
+  IDefinitionMeta,
+  ISetGraphQLDefinitionsAction,
+  IQueryStartAction,
+  IApiFinishedAction,
 } from "../types"
 
 import { gatsbyConfigSchema } from "../../joi-schemas/joi"
@@ -51,7 +55,7 @@ export const createPageDependency = (
  * @private
  */
 export const deleteComponentsDependencies = (
-  paths: string[]
+  paths: Array<string>
 ): IDeleteComponentDependenciesAction => {
   return {
     type: `DELETE_COMPONENTS_DEPENDENCIES`,
@@ -79,6 +83,15 @@ export const replaceComponentQuery = ({
       query,
       componentPath,
     },
+  }
+}
+
+export const apiFinished = (
+  payload: IApiFinishedAction["payload"]
+): IApiFinishedAction => {
+  return {
+    type: `API_FINISHED`,
+    payload,
   }
 }
 
@@ -114,6 +127,23 @@ export const queryExtracted = (
     plugin,
     traceId,
     payload: { componentPath, query },
+  }
+}
+
+/**
+ * Set Definitions for fragment extraction, etc.
+ *
+ * Used by developer tools such as vscode-graphql & graphiql
+ *
+ * query-compiler.js.
+ * @private
+ */
+export const setGraphQLDefinitions = (
+  definitionsByName: Map<string, IDefinitionMeta>
+): ISetGraphQLDefinitionsAction => {
+  return {
+    type: `SET_GRAPHQL_DEFINITIONS`,
+    payload: definitionsByName,
   }
 }
 
@@ -200,6 +230,19 @@ export const pageQueryRun = (
 ): IPageQueryRunAction => {
   return {
     type: `PAGE_QUERY_RUN`,
+    plugin,
+    traceId,
+    payload: { path, componentPath, isPage },
+  }
+}
+
+export const queryStart = (
+  { path, componentPath, isPage },
+  plugin: IGatsbyPlugin,
+  traceId?: string
+): IQueryStartAction => {
+  return {
+    type: `QUERY_START`,
     plugin,
     traceId,
     payload: { path, componentPath, isPage },

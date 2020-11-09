@@ -158,7 +158,7 @@ Gatsby will create a schema that looks something like this:
 title: String
 ```
 
-This makes it easy to pull data from anywhere and immediately start writing
+This makes it possible to pull data from anywhere and immediately start writing
 GraphQL queries against your data.
 
 This _can_ cause confusion as some data sources allow you to define
@@ -369,7 +369,7 @@ export const query = graphql`
 ## Further reading
 
 - [Why Gatsby Uses GraphQL](/docs/why-gatsby-uses-graphql/)
-- [The Anatomy of a GraphQL Query](https://www.apollographql.com/blog/the-anatomy-of-a-graphql-query)
+- [The Anatomy of a GraphQL Query](https://www.apollographql.com/blog/the-anatomy-of-a-graphql-query-6dffa9e9e747)
 
 ### Getting started with GraphQL
 
@@ -380,6 +380,6 @@ export const query = graphql`
 
 ### Advanced readings on GraphQL
 
-- [GraphQL specification](https://facebook.github.io/graphql/October2016/)
+- [GraphQL specification](https://spec.graphql.org/October2016/)
 - [Interfaces and Unions](https://medium.com/the-graphqlhub/graphql-tour-interfaces-and-unions-7dd5be35de0d)
 - [Relay Compiler (which Gatsby uses to process queries)](https://facebook.github.io/relay/docs/en/compiler-architecture.html)

@@ -8,7 +8,7 @@ Pages can be created in three ways:
 
 - In your site's gatsby-node.js by implementing the API
   [`createPages`](/docs/node-apis/#createPages)
-- Gatsby core automatically turns React components in `src/pages` into pages
+- Gatsby core automatically turns React components in `src/pages/*` into pages. Note that you must make the component the [default export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export)
 - Plugins can also implement `createPages` and create pages for you
 
 You can also implement the API [`onCreatePage`](/docs/node-apis/#onCreatePage)
@@ -17,8 +17,8 @@ to modify pages created in core or plugins or to create [client-only routes](/do
 ## Debugging help
 
 To see what pages are being created by your code or plugins, you can query for
-page information while developing in Graph_i_QL. Paste the following query in
-the Graph_i_QL IDE for your site. The Graph_i_QL IDE is available when running
+page information while developing in Graph<em>i</em>QL. Paste the following query in
+the Graph<em>i</em>QL IDE for your site. The Graph<em>i</em>QL IDE is available when running
 your sites development server at `HOST:PORT/___graphql` e.g.
 `http://localhost:8000/___graphql`.
 
@@ -39,7 +39,7 @@ your sites development server at `HOST:PORT/___graphql` e.g.
 }
 ```
 
-The `context` property accepts an object, and we can pass in any data we want the page to be able to access.
+The `context` property accepts an object, and you can pass in any data you want the page to be able to access.
 
 You can also query for any `context` data you or plugins added to pages.
 
@@ -54,6 +54,8 @@ This example assumes that each markdown page has a `path` set in the frontmatter
 of the markdown file.
 
 ```javascript:title=gatsby-node.js
+const path = require("path")
+
 // Implement the Gatsby API “createPages”. This is called once the
 // data layer is bootstrapped to let plugins create pages from data.
 exports.createPages = async ({ graphql, actions, reporter }) => {
@@ -120,6 +122,7 @@ In the initial approach you have seen how the `gatsby-node.js` file would have a
 Using the `id` as an access point to query for other properties in the template is the default approach. However, suppose you had a list of products with properties you would like to query for. Handling the query entirely from `gatsby-node.js` would result in the query looking like this:
 
 ```javascript:title=gatsby-node.js
+const path = require("path")
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
@@ -178,7 +181,7 @@ It does come with the advantage of querying your data from one place after decla
 
 However, it doesn’t give you the opportunity to know what exactly you are querying for in the template and if any changes occur in the component query structure in `gatsby-node.js`. [Hot reload](/docs/glossary#hot-module-replacement) is taken off the table and the site needs to be rebuilt for changes to reflect.
 
-Gatsby stores page metadata (including context) in a redux store (which also means that it stores the memory of the page). For larger sites (either number of pages and/or amount of data that is being passed via page context) this will cause problems. There might be "out of memory" crashes if it's too much data or degraded performance.
+Gatsby stores page metadata (including context) in a Redux store (which also means that it stores the memory of the page). For larger sites (either number of pages and/or amount of data that is being passed via page context) this will cause problems. There might be "out of memory" crashes if it's too much data or degraded performance.
 
 > If there is memory pressure, Node.js will try to garbage collect more often, which is a known performance issue.
 
@@ -259,8 +262,8 @@ const Page = ({ pageContext }) => {
 export default Page
 ```
 
-Page context is serialized before being passed to pages: This means it can't be used to pass functions into components.
+Page context is serialized before being passed to pages. This means it can't be used to pass functions into components and `Date` objects will be serialized into strings.
 
 ## Creating Client-only routes
 
-In specific cases, you might want to create a site with client-only portions that are gated by authentication. For more on how to achieve this, refer to [client-only routes & user authentication](https://www.gatsbyjs.org/docs/client-only-routes-and-user-authentication/).
+In specific cases, you might want to create a site with client-only portions that are gated by authentication. For more on how to achieve this, refer to [client-only routes & user authentication](https://www.gatsbyjs.com/docs/client-only-routes-and-user-authentication/).

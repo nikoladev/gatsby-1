@@ -71,7 +71,7 @@ A malicious website could inspect your site and copy this snippet to theirs. If 
 
 #### Don't use GET requests to modify data
 
-Actions that do not simply read data should be handled in a POST request. In the example above, if the `/blog/addcomment` endpoint accepts a GET request, the CSRF attack can be done using an `<img />` tag:
+Actions that do not read data should be handled in a POST request. In the example above, if the `/blog/addcomment` endpoint accepts a GET request, the CSRF attack can be done using an `<img />` tag:
 
 ```html
 <img src="http://mywebsite.com/blog/addcomment?comment=unwanted%20comment" />
@@ -160,7 +160,7 @@ currently there is a [compatibility issue](https://github.com/gatsbyjs/gatsby/is
 - [OWASP XSS filter evasion cheatsheet](https://owasp.org/www-community/xss-filter-evasion-cheatsheet)
 - [OWASP CSRF prevention cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#samesite-cookie-attribute)
 - [Warn for JavaScript: URLs in DOM sinks #15047](https://github.com/facebook/react/pull/15047)
-- [How to prevent XSS attacks when using dangerouslySetInnerHTML in React](https://medium.com/@Jam3/how-to-prevent-xss-attacks-when-using-dangerouslysetinnerhtml-in-react-f669f778cebb)
+- [How to prevent XSS attacks when using `dangerouslySetInnerHTML` in React](https://medium.com/@Jam3/how-to-prevent-xss-attacks-when-using-dangerouslysetinnerhtml-in-react-f669f778cebb)
 - [Exploiting XSS via Markdown](https://medium.com/taptuit/exploiting-xss-via-markdown-72a61e774bf8)
 - [Auditing package dependencies for security vulnerabilities](https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities)
 - [CSRF tokens](https://portswigger.net/web-security/csrf/tokens)
